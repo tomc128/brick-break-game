@@ -1,18 +1,73 @@
 let canvas = document.getElementById('game-canvas');
 let ctx = canvas.getContext('2d');
 
-// ctx.beginPath();
-// ctx.rect(20, 40, 50, 50);
-// ctx.fillStyle = '#F00';
-// ctx.fill();
-// ctx.closePath();
 
-function draw() {
+canvas.addEventListener('mousemove', onMouseMove);
+
+
+// Ball
+let ballRadius = 10;
+
+let x = canvas.width / 2;
+let y = canvas.height - 30;
+let dx = 1;
+let dy = -1;
+
+// Mouse & crosshair
+let mousePosition = {x:0, y:0};
+let crosshairThickness = 1;
+let crosshairLength = 8;
+
+
+function onMouseMove(event) {
+
+    let rect = canvas.getBoundingClientRect();
+    
+    mousePosition = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+
+}
+
+
+
+function drawCrosshair() {
     ctx.beginPath();
-    ctx.arc(50, 50, 10, 0, Math.PI * 2);
+    ctx.rect(mousePosition.x - crosshairLength, mousePosition.y - crosshairThickness, crosshairLength * 2, crosshairThickness * 2);
+    ctx.rect(mousePosition.x - crosshairThickness, mousePosition.y - crosshairLength, crosshairThickness * 2, crosshairLength * 2);
+    ctx.fillStyle = '#000000aa';
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = '#32ee68';
     ctx.fill();
     ctx.closePath();
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBall();
+    drawCrosshair();
+
+    // Ball position & edge collision
+
+    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius)
+        dx *= -1;
+
+    if (y + dy > canvas.height - ballRadius || y + dy < ballRadius)
+        dy *= -1;
+
+    x += dx;
+    y += dy;
+
+
+    
 }
 
 setInterval(draw, 10);
