@@ -5,6 +5,10 @@ let ctx = canvas.getContext('2d');
 canvas.addEventListener('mousemove', onMouseMove);
 
 
+// Internal
+let lastUpdate = Date.now();
+
+
 // Ball
 let ballRadius = 10;
 
@@ -13,8 +17,9 @@ let y = canvas.height - 30;
 let dx = 1;
 let dy = -1;
 
+
 // Mouse & crosshair
-let mousePosition = {x:0, y:0};
+let mousePosition = { x: 0, y: 0 };
 let crosshairThickness = 1;
 let crosshairLength = 8;
 
@@ -22,7 +27,7 @@ let crosshairLength = 8;
 function onMouseMove(event) {
 
     let rect = canvas.getBoundingClientRect();
-    
+
     mousePosition = {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top
@@ -49,25 +54,37 @@ function drawBall() {
     ctx.closePath();
 }
 
-function draw() {
+
+function update(deltaTime) {
+    // Ball position & edge collision
+    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) dx *= -1;
+    if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) dy *= -1;
+
+    x += dx * deltaTime;
+    y += dy * deltaTime;
+
+    draw();
+}
+function fixedUpdate() {
+
+}
+
+function draw(deltaTime) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawBall();
     drawCrosshair();
-
-    // Ball position & edge collision
-
-    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius)
-        dx *= -1;
-
-    if (y + dy > canvas.height - ballRadius || y + dy < ballRadius)
-        dy *= -1;
-
-    x += dx;
-    y += dy;
-
-
-    
 }
 
-setInterval(draw, 10);
+function tick() {
+    let now = Date.now();
+    deltaTime = (now - lastUpdate) / 1000;
+    lastUpdate = now;
+
+    update(deltaTime);
+    draw(deltaTime);
+
+    window.requestAnimationFrame(tick);
+}
+
+window.requestAnimationFrame(tick);
