@@ -12,16 +12,24 @@ let lastUpdate = Date.now();
 
 // Ball
 let ballRadius = 10;
-let ballPos = { x: canvas.width / 2, y: canvas.height - ballRadius - 10 };
-let ballSpeed = 100;
-
-let dy = dx = 0;
+const initialBallPos = { x: canvas.width / 2, y: canvas.height - ballRadius - 10 };
+let ballPos = { ...initialBallPos };
+let ballSpeed = 500;
+let ballDir = { x: 0, y: 0 }
 
 
 // Mouse & crosshair
 let mousePos = { x: 0, y: 0 };
 let crosshairThickness = 1;
 let crosshairLength = 8;
+
+
+// Blocks
+let blockGrid = [];
+
+
+
+
 
 
 function onMouseMove(event) {
@@ -36,10 +44,13 @@ function onMouseMove(event) {
 function onMouseDown(event) {
     // Fire ball
     let direction = getBallMovementDirection();
-    
-    dx = direction.x;
-    dy = direction.y;
+
+    ballDir = { ...direction };
 }
+
+
+
+
 
 
 
@@ -47,7 +58,7 @@ function getBallMovementDirection() {
     // ballpos -> mousepos
     let x = mousePos.x - ballPos.x;
     let y = mousePos.y - ballPos.y;
-    let magnitude = Math.sqrt(x*x + y*y);
+    let magnitude = Math.sqrt(x * x + y * y);
 
     return {
         x: x / magnitude,
@@ -57,7 +68,10 @@ function getBallMovementDirection() {
 
 
 
-function drawCrosshair() {
+
+
+
+function renderCrosshair() {
     ctx.beginPath();
     ctx.rect(mousePos.x - crosshairLength, mousePos.y - crosshairThickness, crosshairLength * 2, crosshairThickness * 2);
     ctx.rect(mousePos.x - crosshairThickness, mousePos.y - crosshairLength, crosshairThickness * 2, crosshairLength * 2);
@@ -66,7 +80,7 @@ function drawCrosshair() {
     ctx.closePath();
 }
 
-function drawBall() {
+function renderBall() {
     ctx.beginPath();
     ctx.arc(ballPos.x, ballPos.y, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = '#32ee68';
@@ -75,27 +89,41 @@ function drawBall() {
 }
 
 
+
+
 function update(deltaTime) {
     // Ball position & edge collision
-    let dxt = dx * deltaTime;
-    let dyt = dy * deltaTime;
+    let dxt = ballDir.x * deltaTime;
+    let dyt = ballDir.y * deltaTime;
+    let changeBallPos = true;
 
-    if (ballPos.x + dxt > canvas.width - ballRadius || ballPos.x + dxt < ballRadius) dx *= -1;
-    if (ballPos.y + dyt > canvas.height - ballRadius || ballPos.y + dyt < ballRadius) dy *= -1;
+    if (ballPos.x + dxt > canvas.width - ballRadius || ballPos.x + dxt < ballRadius) ballDir.x *= -1;
+    if (ballPos.y + dyt < ballRadius) ballDir.y *= -1;
 
-    ballPos.x += dx * deltaTime * ballSpeed;
-    ballPos.y += dy * deltaTime * ballSpeed;
+    if (ballPos.y + dyt > canvas.height - ballRadius) {
+        ballDir = { x: 0, y: 0 };
+        ballPos = { ...initialBallPos };
+
+        changeBallPos = false;
+    }
+
+    if (changeBallPos) {
+        ballPos.x += ballDir.x * deltaTime * ballSpeed;
+        ballPos.y += ballDir.y * deltaTime * ballSpeed;
+    }
 }
-function fixedUpdate() {
 
-}
+
+
 
 function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawBall();
-    drawCrosshair();
+    renderBall();
+    renderCrosshair();
 }
+
+
 
 function tick() {
     let now = Date.now();
@@ -107,5 +135,11 @@ function tick() {
 
     window.requestAnimationFrame(tick);
 }
+
+
+
+
+
+
 
 window.requestAnimationFrame(tick);
