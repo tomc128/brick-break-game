@@ -16,8 +16,12 @@ export class Vector {
         this.y += other.y;
     }
 
-    static mul(vector: Vector, scalar: number): Vector {
+    static multiply(vector: Vector, scalar: number): Vector {
         return new Vector(vector.x * scalar, vector.y * scalar);
+    }
+
+    static subtract(a: Vector, b: Vector): Vector {
+        return new Vector(a.x - b.x, a.y - b.y);
     }
 
     copy(): Vector {

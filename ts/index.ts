@@ -12,10 +12,10 @@ let ctx = canvas.getContext('2d');
 
 
 
-canvas.addEventListener('mousemove', (e) => Input.onMouseMove(e));
-canvas.addEventListener('click', (e) => Input.onMouseClick(e));
-canvas.addEventListener('keydown', (e) => Input.onKeyDown(e));
-canvas.addEventListener('keyup', (e) => Input.onKeyUp(e));
+document.addEventListener('mousemove', (e) => Input.onMouseMove(e));
+document.addEventListener('click', (e) => Input.onMouseClick(e));
+document.addEventListener('keydown', (e) => Input.onKeyDown(e));
+document.addEventListener('keyup', (e) => Input.onKeyUp(e));
 
 
 

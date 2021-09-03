@@ -7,11 +7,13 @@ export class Input {
     static onMouseClick(event) {
     }
     static onKeyDown(event) {
+        console.log(`'${event.key}' down`);
         if (!this.keys.includes(event.key))
             this.keys.push(event.key);
     }
     static onKeyUp(event) {
-        this.keys.filter((e) => e != event.key);
+        console.log('key up');
+        this.keys.filter(item => item !== event.key);
     }
     static isKeyDown(key) {
         return this.keys.includes(key);

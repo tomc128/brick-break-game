@@ -3,7 +3,6 @@ import { Vector } from "./vector.js";
 export class Input {
 
     static mousePosition: Vector = Vector.zero();
-
     static keys: Array<string> = [];
 
     static onMouseMove(event: MouseEvent) {
@@ -14,11 +13,13 @@ export class Input {
 
     }
     static onKeyDown(event: KeyboardEvent) {
+        console.log(`'${event.key}' down`);
         if (!this.keys.includes(event.key))
             this.keys.push(event.key);
     }
     static onKeyUp(event: KeyboardEvent) {
-        this.keys.filter((e) => e != event.key);
+        console.log('key up');
+        this.keys.filter(item => item !== event.key);
     }
 
     static isKeyDown(key: string) {

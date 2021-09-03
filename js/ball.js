@@ -1,6 +1,7 @@
 import { Vector } from "./vector.js";
 import { GameObject } from "./gameobject.js";
 import { Game } from "./game.js";
+import { Input } from "./input.js";
 export class Ball extends GameObject {
     constructor(position, radius, colour, speed) {
         super();
@@ -10,6 +11,12 @@ export class Ball extends GameObject {
         this.radius = radius;
         this.colour = colour;
         this.speed = speed;
+        document.addEventListener('click', (e) => {
+            if (e.button == 0) {
+                // Fire
+                this.fire();
+            }
+        });
     }
     update(dt) {
         this.doMovement(dt);
@@ -30,7 +37,14 @@ export class Ball extends GameObject {
             return;
         }
         // Update ball position using velocity
-        this.position.add(Vector.mul(this.velocity, this.speed * dt));
+        this.position.add(Vector.multiply(this.velocity, this.speed * dt));
+    }
+    getFireDirection() {
+        return Vector.subtract(Input.mousePosition, this.position);
+    }
+    fire() {
+        let direction = this.getFireDirection();
+        this.velocity = direction.normalised();
     }
     render(ctx) {
         ctx.beginPath();

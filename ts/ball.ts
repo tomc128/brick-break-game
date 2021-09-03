@@ -1,6 +1,7 @@
 import { Vector } from "./vector.js";
 import { GameObject } from "./gameobject.js";
 import { Game } from "./game.js";
+import { Input } from "./input.js";
 
 export class Ball extends GameObject {
 
@@ -23,6 +24,13 @@ export class Ball extends GameObject {
         this.radius = radius;
         this.colour = colour;
         this.speed = speed;
+
+        document.addEventListener('click', (e) => {
+            if (e.button == 0) {
+                // Fire
+                this.fire();
+            } 
+        });
     }
 
     override update(dt: number) {
@@ -51,8 +59,21 @@ export class Ball extends GameObject {
         }
 
         // Update ball position using velocity
-        this.position.add(Vector.mul(this.velocity, this.speed * dt));
+        this.position.add(Vector.multiply(this.velocity, this.speed * dt));
     }
+
+
+    getFireDirection(): Vector {
+        return Vector.subtract(Input.mousePosition, this.position);
+    }
+
+
+    fire() {
+        let direction = this.getFireDirection();
+
+        this.velocity = direction.normalised();
+    }
+
 
     override render(ctx: CanvasRenderingContext2D) {
         ctx.beginPath();

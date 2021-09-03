@@ -7,8 +7,11 @@ export class Vector {
         this.x += other.x;
         this.y += other.y;
     }
-    static mul(vector, scalar) {
+    static multiply(vector, scalar) {
         return new Vector(vector.x * scalar, vector.y * scalar);
+    }
+    static subtract(a, b) {
+        return new Vector(a.x - b.x, a.y - b.y);
     }
     copy() {
         return new Vector(this.x, this.y);
