@@ -1,6 +1,8 @@
-import { GameObject } from "./gameobject";
+import { GameObject } from "./gameobject.js";
 
 export class Game {
+    static canvas : HTMLCanvasElement;
+
     ctx: CanvasRenderingContext2D;
 
     lastUpdate: number = Date.now();
@@ -17,6 +19,7 @@ export class Game {
     }
 
     render() {
+        this.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
         this.objects.forEach(o => o.render(this.ctx));
     }
 

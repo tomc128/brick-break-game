@@ -9,6 +9,7 @@ export class Game {
         this.objects.forEach(o => o.update(dt));
     }
     render() {
+        this.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
         this.objects.forEach(o => o.render(this.ctx));
     }
     tick() {
