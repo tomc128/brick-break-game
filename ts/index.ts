@@ -4,6 +4,7 @@ import { Game } from "./game.js";
 import { GameObject } from "./gameobject.js";
 import { Grid } from "./grid.js";
 import { Input } from "./input.js";
+import { Player } from "./player.js";
 import { Vector } from "./vector.js";
 
 
@@ -13,9 +14,9 @@ let ctx = canvas.getContext('2d');
 
 
 document.addEventListener('mousemove', (e) => Input.onMouseMove(e));
-document.addEventListener('click', (e) => Input.onMouseClick(e));
-document.addEventListener('keydown', (e) => Input.onKeyDown(e));
-document.addEventListener('keyup', (e) => Input.onKeyUp(e));
+// document.addEventListener('click', (e) => Input.onMouseClick(e));
+// document.addEventListener('keydown', (e) => Input.onKeyDown(e));
+// document.addEventListener('keyup', (e) => Input.onKeyUp(e));
 
 
 
@@ -34,6 +35,10 @@ let block3 = new Block(new Vector(2, 2), 2);
 grid.addBlocks(block1, block2, block3);
 
 
-let ball = new Ball(new Vector(canvas.width / 2, canvas.height - 30), 10, '#ff0000', 1000);
+let ballPosition = new Vector(canvas.width / 2, canvas.height - 30);
+
+let ball = new Ball(ballPosition.copy(), 10, '#ff0000', 1000);
+let player = new Player(ballPosition.copy(), ball);
 
 game.objects.push(ball);
+game.objects.push(player);

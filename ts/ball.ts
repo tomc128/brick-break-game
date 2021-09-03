@@ -27,7 +27,6 @@ export class Ball extends GameObject {
 
         document.addEventListener('click', (e) => {
             if (e.button == 0) {
-                // Fire
                 this.fire();
             } 
         });

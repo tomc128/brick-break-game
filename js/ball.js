@@ -13,7 +13,6 @@ export class Ball extends GameObject {
         this.speed = speed;
         document.addEventListener('click', (e) => {
             if (e.button == 0) {
-                // Fire
                 this.fire();
             }
         });
