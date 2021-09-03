@@ -1,9 +1,7 @@
-var Block = /** @class */ (function () {
-    function Block(position, value) {
+export class Block {
+    constructor(position, value) {
         this.position = position;
         this.value = value;
     }
-    return Block;
-}());
-export { Block };
+}
 //# sourceMappingURL=block.js.map

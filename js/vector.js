@@ -1,11 +1,9 @@
-var Vector = /** @class */ (function () {
-    function Vector(x, y) {
+export class Vector {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
     }
-    Vector.zero = function () { return new Vector(0, 0); };
-    Vector.one = function () { return new Vector(1, 1); };
-    return Vector;
-}());
-export { Vector };
+}
+Vector.zero = () => new Vector(0, 0);
+Vector.one = () => new Vector(1, 1);
 //# sourceMappingURL=vector.js.map

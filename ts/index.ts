@@ -1,6 +1,15 @@
+import { Ball } from "./ball.js";
 import { Block } from "./block.js";
+import { Game } from "./game.js";
 import { Grid } from "./grid.js";
 import { Vector } from "./vector.js";
+
+
+let canvas: any = document.getElementById('game-canvas');
+let ctx = canvas.getContext('2d');
+
+
+const game = new Game(ctx);
 
 const gridSize = new Vector(10, 10);
 const grid = new Grid(gridSize);
@@ -11,4 +20,7 @@ let block3 = new Block(new Vector(2, 2), 2);
 
 grid.addBlocks(block1, block2, block3);
 
-console.log(grid);
+
+let ball = new Ball(new Vector(canvas.width / 2, canvas.height - 30), 10, '#ff0000');
+
+game.objects.push(ball);
