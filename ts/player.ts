@@ -21,7 +21,6 @@ export class Player extends GameObject {
     }
 
     override render(ctx: CanvasRenderingContext2D) {
-        console.log('here');
         ctx.beginPath();
         ctx.moveTo(this.position.x, this.position.y);
         ctx.lineTo(Input.mousePosition.x, Input.mousePosition.y);
